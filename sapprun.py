@@ -13,7 +13,7 @@ class SAppRun(Magics):
         os.environ['PATH'] += ':/usr/local/lib'
         os.environ['LD_LIBRARY_PATH'] += ':/usr/local/lib'
         
-    def compile(name, libs):
+    def compile(slef, name, libs):
         cmd = 'g++ -std=c++11 -I. -I/usr/local/include.slib -L/usr/local/lib -O2 -o ./App/' + name
         cmd += ' ./Codes/' + name + '.cpp'
         if 'O' in libs:
@@ -34,11 +34,12 @@ class SAppRun(Magics):
     def sapprun(self, line, cell):
         try:
             args = line.split()
-            name = args[1]
+            name = args[0]
+            libs = args[1]
             print(line.split())
         except SystemExit as e:
             print('err')
             return 
         file_path = './Codes/'
-        output = self.run(name, 'O')
+        output = self.run(name, libs)
         return output
