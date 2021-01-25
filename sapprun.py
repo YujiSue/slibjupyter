@@ -40,7 +40,5 @@ class SAppRun(Magics):
             print('err')
             return 
         file_path = './Codes/'
-        with open(file_path, "w") as f:
-            f.write(cell)
         output = self.run(name, 'O')
         return output
