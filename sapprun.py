@@ -7,7 +7,7 @@ from IPython.core.magic import Magics, cell_magic, magics_class
 class SAppRun(Magics):
     def __init__(self, shell):
         super(SAppRun, self).__init__(shell)
-
+        
     @staticmethod
     def setPath():
         os.environ['PATH'] += ':/usr/local/lib'
