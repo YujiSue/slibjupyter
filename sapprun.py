@@ -23,7 +23,7 @@ class SAppRun(Magics):
             header += '#include "sapp.h"\n'
         if 'I' in libs:
             header += '#include "sbioinfo.h"\n'
-        header += 'using namespacce slib;\n'
+        header += 'using namespace slib;\n'
         header += 'int main(int argc, const char **argv) {\n'
         footer = '\nreturn 0;\n}'
         path = './Codes/'+name+'.cpp'
