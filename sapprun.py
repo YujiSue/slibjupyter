@@ -42,8 +42,9 @@ class SAppRun(Magics):
         if 'I' in libs:
             cmd += ' -lsbioinfo'
         cmd += ' -lcurl'
-        #print(cmd)
-        subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        print(cmd)
+        proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        print(proc.stdout)
         
     def run(self, name, libs, cell):
         self.setPath()
