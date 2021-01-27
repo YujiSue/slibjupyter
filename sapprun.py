@@ -50,8 +50,8 @@ class SAppRun(Magics):
         self.setPath()
         self.exportSrc(name, libs, cell)
         self.compile(name, libs)
-        proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        print(proc.stdout)
+        os.system('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        #print(proc.stdout)
         return None
 
     @cell_magic
