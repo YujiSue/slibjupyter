@@ -33,7 +33,7 @@ class SAppRun(Magics):
             f.write(footer)
             
     def compile(self, name, libs):
-        cmd = 'g++ -std=c++11 -I. -I/usr/local/include.slib -L/usr/local/lib -O2 -o ./App/' + name
+        cmd = 'g++ -std=c++11 -I. -I/usr/local/include/slib -L/usr/local/lib -O2 -o ./App/' + name
         cmd += ' ./Codes/' + name + '.cpp'
         if 'O' in libs:
             cmd += ' -lsobj'
