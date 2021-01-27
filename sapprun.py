@@ -51,7 +51,9 @@ class SAppRun(Magics):
         self.exportSrc(name, libs, cell)
         self.compile(name, libs)
         proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        print(proc.stdout.splitlines())
+        res = proc.stdout.splitlines()
+        for row in res:
+            print(row.decode())
         return None
 
     @cell_magic
