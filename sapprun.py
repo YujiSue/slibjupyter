@@ -44,14 +44,14 @@ class SAppRun(Magics):
         cmd += ' -lcurl'
         #print(cmd)
         proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        #print(proc.stdout)
+        #print(proc.stdout.splitlines())
         
     def run(self, name, libs, cell):
         self.setPath()
         self.exportSrc(name, libs, cell)
         self.compile(name, libs)
-        #os.system('./App/'+name)
-        #print(proc.stdout)
+        proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        print(proc.stdout.splitlines())
         return None
 
     @cell_magic
@@ -59,6 +59,5 @@ class SAppRun(Magics):
         args = line.split()
         name = args[0]
         libs = args[1]
-        self.run(name, libs, cell)
-        os.system('./App/'+name)
-        #return output
+        output = self.run(name, libs, cell)
+        return output
