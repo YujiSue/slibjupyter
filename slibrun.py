@@ -46,21 +46,31 @@ class SLibCodeRun(Magics):
 			for lib in info['libs']:
 				cmd += ' -l'+lib
 		cmd += ' -o ./App/' + info["product"]
-		#if ('verbose' in info):
-		#	print(cmd)
-		# proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-		os.system(cmd)
+		if ('verbose' in info):
+			print(cmd)
+			proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+			res = proc.stdout.splitlines()
+			for row in res:
+				print(row.decode())
+		else:
+			os.system(cmd)
 		
 	def runScript(self, name, slibs, verbose, cell):
 		self.preset()
 		self.exportScript(name, slibs, cell)
 		libs = ['sobj', 'curl']
-		#
-		self.compile({'product':name, 'libs':libs, 'codes':[name+'.cpp'], 'verbose'; verbose})
-		proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-		res = proc.stdout.splitlines()
-		for row in res:
-			print(row.decode())
+		if ('I' in slibs):
+			libs.append('sbioinfo')
+		if ('S' in slibs):
+			libs.append('sscience')
+		self.compile({'product':name, 'libs':libs, 'codes':[name+'.cpp'], 'verbose': verbose})
+		if ('verbose' in info):
+			proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+			res = proc.stdout.splitlines()
+			for row in res:
+				print(row.decode())
+		else:
+			os.system('./App/'+name)
 		return None
 
 	def runCodes(self, name, codes, headers, libs, cell):
