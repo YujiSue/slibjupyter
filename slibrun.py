@@ -83,10 +83,10 @@ class SLibCodeRun(Magics):
     def sscriptrun(self, line, cell):
         args = line.split()
         name = args[0]
-		if (1 < len(args)):
+        if (1 < len(args)):
             libs = args[1]
-		else:
-		    libs = ''
+        else:
+            libs = ''
         output = self.runScript(name, libs, cell)
         return output
     
