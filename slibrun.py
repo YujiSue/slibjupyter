@@ -64,13 +64,10 @@ class SLibCodeRun(Magics):
 		if ('S' in slibs):
 			libs.append('sscience')
 		self.compile({'product':name, 'libs':libs, 'codes':[name+'.cpp'], 'verbose': verbose})
-		if verbose:
-			proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-			res = proc.stdout.splitlines()
-			for row in res:
-				print(row.decode())
-		else:
-			os.system('./App/'+name)
+		proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		res = proc.stdout.splitlines()
+		for row in res:
+			print(row.decode())
 		return None
 
 	def runCodes(self, name, codes, headers, libs, cell):
