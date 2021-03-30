@@ -34,7 +34,7 @@ class SLibCodeRun(Magics):
             f.write(cell)
 
     def compile(self, info):
-        cmd = 'g++ -std=c++11 -O2'# -I./Codes -I/usr/local/include/slib -L/usr/local/lib -o ./App/' + info["product"]
+        cmd = 'g++ -std=c++11 -O2'
         cmd += ' -I./Codes -I/usr/local/include/slib'
         if ('includes' in info):
             for head in info['includes']:
@@ -46,18 +46,17 @@ class SLibCodeRun(Magics):
             for lib in info['libs']:
                 cmd += ' -l'+lib
         cmd += ' -o ./App/' + info["product"]
-        if ('verbose' in info):
-            print(cmd)
-        proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        if ('verbose' in info):
-            print(proc.stdout.splitlines())
+        #if ('verbose' in info):
+        #    print(cmd)
+        # proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		os.system(cmd)
         
     def runScript(self, name, slibs, cell):
         self.preset()
         self.exportScript(name, slibs, cell)
         libs = ['sobj', 'curl']
         #
-        self.compile({'product':name, 'libs':libs, 'codes':[name+'.cpp'], 'verbose': True})
+        self.compile({'product':name, 'libs':libs, 'codes':[name+'.cpp']})
         proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         res = proc.stdout.splitlines()
         for row in res:
