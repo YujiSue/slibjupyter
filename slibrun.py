@@ -46,7 +46,7 @@ class SLibCodeRun(Magics):
 			for lib in info['libs']:
 				cmd += ' -l'+lib
 		cmd += ' -o ./App/' + info["product"]
-		if ('verbose' in info):
+		if info['verbose']:
 			print(cmd)
 			proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			res = proc.stdout.splitlines()
@@ -64,7 +64,7 @@ class SLibCodeRun(Magics):
 		if ('S' in slibs):
 			libs.append('sscience')
 		self.compile({'product':name, 'libs':libs, 'codes':[name+'.cpp'], 'verbose': verbose})
-		if ('verbose' in info):
+		if verbose:
 			proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			res = proc.stdout.splitlines()
 			for row in res:
