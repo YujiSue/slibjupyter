@@ -36,20 +36,20 @@ class SLibCodeRun(Magics):
     def compile(self, info):
         cmd = 'g++ -std=c++11 -O2'# -I./Codes -I/usr/local/include/slib -L/usr/local/lib -o ./App/' + info["product"]
         cmd += ' -I./Codes -I/usr/local/include/slib'
-        if(info['includes']):
+        if 'includes' in info:
             for head in info['includes']:
                 cmd += ' -I'+head
-        if(info['codes']):
+        if 'codes' in info:
             for code in info['codes']:
                 cmd += ' ./Codes/'+code
-        if(info['libs']):
+        if 'libs' in info:
             for lib in info['libs']:
                 cmd += ' -l'+lib
         cmd += ' -o ./App/' + info["product"]
-        if (info["verbose"]):
+        if 'verbose' in info):
             print(cmd)
         proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        if (info["verbose"]):
+        if 'verbose' in info):
             print(proc.stdout.splitlines())
         
     def runScript(self, name, slibs, cell):
@@ -83,7 +83,10 @@ class SLibCodeRun(Magics):
     def sscriptrun(self, line, cell):
         args = line.split()
         name = args[0]
-        libs = args[1]
+		if 1 < len(args):
+            libs = args[1]
+		else:
+		    libs = ''
         output = self.runScript(name, libs, cell)
         return output
     
