@@ -57,7 +57,7 @@ class SLibCodeRun(Magics):
         self.exportScript(name, slibs, cell)
         libs = ['sobj', 'curl']
         #
-        self.compile({'product':name, 'libs':libs, 'codes':['./Codes/'+name+'.cpp'], 'verbose': True})
+        self.compile({'product':name, 'libs':libs, 'codes':[name+'.cpp'], 'verbose': True})
         proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         res = proc.stdout.splitlines()
         for row in res:
