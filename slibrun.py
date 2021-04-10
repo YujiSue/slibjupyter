@@ -58,7 +58,7 @@ class SLibCodeRun(Magics):
 		sorted(scripts, key=lambda f: os.stat(f).st_mtime, reverse=True)
 		for scrpt in scripts:
 			with open(scrpt, mode='r') as f:
-			body = body + f.read()
+				body = body + f.read()
 		return body
 
 	def exportScript(self, name, libs, cell):
