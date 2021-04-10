@@ -62,7 +62,7 @@ class SLibCodeRun(Magics):
 		return body
 
 	def exportScript(self, name, libs, cell):
-	    code = self.convertFunc(cell)
+		code = self.convertFunc(cell)
 		path = './Scripts/'+name+'.cpscrpt'
 		with open(path, mode='w') as s:
 			s.write(code)
