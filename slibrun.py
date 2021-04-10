@@ -11,7 +11,7 @@ class SLibCodeRun(Magics):
 		super(SLibCodeRun, self).__init__(shell)
 
 	@staticmethod
-	def preset():
+	def preset(self):
 		os.environ['PATH'] += ':/usr/local/lib'
 		os.environ['LD_LIBRARY_PATH'] += ':/usr/local/lib'
 		os.makedirs('./Scripts', exist_ok=True)
@@ -52,7 +52,7 @@ class SLibCodeRun(Magics):
 
 		return code
 
-	def makeScriptBody():
+	def makeScriptBody(self):
 		body = ''
 		scripts = glob.glob("./Scripts/*.cpscrpt")
 		sorted(scripts, key=lambda f: os.stat(f).st_mtime, reverse=True)
