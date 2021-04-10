@@ -58,14 +58,16 @@ class SLibCodeRun(Magics):
 		sorted(scripts, key=lambda f: os.stat(f).st_mtime, reverse=True)
 		for scrpt in scripts:
 			with open(scrpt, mode='r') as f:
-				body = body + f.read()
+				body = body + f.read() + '\n'
 		return body
 
 	def exportScript(self, name, libs, cell):
 		code = self.convertFunc(cell)
-		path = './Scripts/'+name+'.cpscrpt'
-		with open(path, mode='w') as s:
-			s.write(code)
+		if name[0] == '+':
+			name = name[1:]
+			path = './Scripts/'+name+'.cpscrpt'
+			with open(path, mode='w') as s:
+				s.write(code)
 		body = self.makeScriptBody()
 		header = '#include "sobj.h"\n'
 		if ('I' in libs):
