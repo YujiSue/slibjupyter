@@ -1,4 +1,6 @@
 import os
+import glob
+import re
 import subprocess
 
 from IPython.core.magic import Magics, cell_magic, magics_class
@@ -12,10 +14,59 @@ class SLibCodeRun(Magics):
 	def preset():
 		os.environ['PATH'] += ':/usr/local/lib'
 		os.environ['LD_LIBRARY_PATH'] += ':/usr/local/lib'
+		os.makedirs('./Scripts', exist_ok=True)
 		os.makedirs('./Codes', exist_ok=True)
 		os.makedirs('./App', exist_ok=True)
 
+	def convertFunc(self, cell):
+		code = ''
+		name = ''
+		isFunc = False
+		brackets = 0
+		rows = cell.splitlines()
+		for row in rows:
+			if ('_SFUNC_' in row):
+				code = code + 'struct {\n'
+				part = row[row.find('_SFUNC_')+7:]
+				ret = re.search(r'\s+[a-zA-Z0-9_]+\s+', part)
+				code  = code + ret.group() + 'operator()'
+				fname = re.search(r'\s+[a-zA-Z0-9_]+\s*\(', part)
+				code = code + part[fname.end()-1:] + '\n'
+				name = part[fname.start():fname.end()-1]
+				brackets = brackets + part.count('{') - part.count('}')
+				if brackets == 0:
+					code = code + '}' + name + ';'
+
+				else:
+					isFunc = True
+
+			elif isFunc:
+				code = code + row + '\n'
+				brackets = brackets + row.count('{') - row.count('}')
+				if brackets == 0:
+					code = code + '}' + name + ';'
+					isFunc = False
+
+			else:
+				code = code + row
+
+		return code
+
+	def makeScriptBody():
+		body = ''
+		scripts = glob.glob("./Scripts/*.cpscrpt")
+		sorted(scripts, key=lambda f: os.stat(f).st_mtime, reverse=True)
+		for scrpt in scripts:
+			with open(scrpt, mode='r') as f:
+			body = body + f.read()
+		return body
+
 	def exportScript(self, name, libs, cell):
+	    code = self.convertFunc(cell)
+		path = './Scripts/'+name+'.cpscrpt'
+		with open(path, mode='w') as s:
+			s.write(code)
+		body = self.makeScriptBody()
 		header = '#include "sobj.h"\n'
 		if ('I' in libs):
 			header += '#include "sbioinfo.h"\n'
@@ -25,7 +76,7 @@ class SLibCodeRun(Magics):
 		path = './Codes/'+name+'.cpp'
 		with open(path, mode='w') as f:
 			f.write(header)
-			f.write(cell)
+			f.write(body)
 			f.write(footer)
 
 	def exportSrc(self, name, cell):
@@ -85,7 +136,13 @@ class SLibCodeRun(Magics):
 		args = line.split()
 
 	@cell_magic
-	def sscriptrun(self, line, cell):
+	def save_scode(self, line, cell):
+		args = line.split()
+		name = args[0]
+		self.exportSrc(name, cell)
+
+	@cell_magic
+	def run_sscript(self, line, cell):
 		args = line.split()
 		name = args[0]
 		libs = ''
