@@ -68,7 +68,9 @@ class SLibCodeRun(Magics):
 			path = './Scripts/'+name+'.cpscrpt'
 			with open(path, mode='w') as s:
 				s.write(code)
-		body = self.makeScriptBody()
+			body = self.makeScriptBody()
+		else:
+			body = self.makeScriptBody() + code		
 		header = '#include "sobj.h"\n'
 		if ('I' in libs):
 			header += '#include "sbioinfo.h"\n'
