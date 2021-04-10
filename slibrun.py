@@ -11,7 +11,7 @@ class SLibCodeRun(Magics):
 		super(SLibCodeRun, self).__init__(shell)
 
 	@staticmethod
-	def preset(self):
+	def preset():
 		os.environ['PATH'] += ':/usr/local/lib'
 		os.environ['LD_LIBRARY_PATH'] += ':/usr/local/lib'
 		os.makedirs('./Scripts', exist_ok=True)
