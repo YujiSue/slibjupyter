@@ -118,6 +118,8 @@ class SLibCodeRun(Magics):
 			libs.append('sbioinfo')
 		if ('S' in slibs):
 			libs.append('sscience')
+		if name[0] == '+':
+			name = name[1:]
 		self.compile({'product':name, 'libs':libs, 'codes':[name+'.cpp'], 'verbose': verbose})
 		proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 		res = proc.stdout.splitlines()
