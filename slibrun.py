@@ -48,7 +48,7 @@ class SLibCodeRun(Magics):
 					isFunc = False
 
 			else:
-				code = code + row
+				code = code + row + '\n'
 
 		return code
 
