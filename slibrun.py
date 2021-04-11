@@ -162,7 +162,7 @@ class SLibCodeRun(Magics):
 		return output
 	
 	@cell_magic
-	def scoderun(self, line, cell):
+	def run_scode(self, line, cell):
 		args = line.split()
 		name = args[0]
 		codes = args[1]
@@ -172,7 +172,7 @@ class SLibCodeRun(Magics):
 		return output
 
 	@cell_magic
-	def sapprun(self, line, cell):
+	def run_sapp(self, line, cell):
 		args = line.split()
 		name = args[0]
 		codes = args[1]
