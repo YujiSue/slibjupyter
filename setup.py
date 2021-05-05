@@ -4,7 +4,6 @@ setup(
 	name='SLibCodeRun',
 	version='0.1.0',
 	author='Yuji Suehiro',
-	author_email='yuji.sue@gmail.com',
 	py_modules=['slib_plugin', 'slibrun'],
 	url='https://github.com/YujiSue/slibjupyter',
 	license='MIT license',
