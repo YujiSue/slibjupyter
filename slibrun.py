@@ -103,10 +103,15 @@ class SLibCodeRun(Magics):
 		cmd += ' -o ./App/' + info["product"]
 		if info['verbose']:
 			print(cmd)
-			proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-			res = proc.stdout.splitlines()
-			for row in res:
-				print(row.decode())
+			proc = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, text=True)
+			while proc.poll() is None:
+				line = proc.stdout.readline().strip()
+				if line:
+					print(line)
+			#proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+			#res = proc.stdout.splitlines()
+			#for row in res:
+			#	print(row.decode())
 		else:
 			os.system(cmd)
 		
@@ -121,21 +126,32 @@ class SLibCodeRun(Magics):
 		if name[0] == '+':
 			name = name[1:]
 		self.compile({'product':name, 'libs':libs, 'codes':[name+'.cpp'], 'verbose': verbose})
-		proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-		res = proc.stdout.splitlines()
-		for row in res:
-			print(row.decode())
+		proc = subprocess.Popen('./App/'+name, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, text=True)
+		while proc.poll() is None:
+			line = proc.stdout.readline().strip()
+			if line:
+				print(line)			
+		#proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		#res = proc.stdout.splitlines()
+		#for row in res:
+		#	print(row.decode())
 		return None
 
 	def runCodes(self, name, codes, headers, libs, cell):
 		self.preset()
 		self.exportSrc(name, cell)
 		self.compile({'product':name,'includes':headers,'libs':libs,'codes':codes})
-		proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-		res = proc.stdout.splitlines()
-		for row in res:
-			print(row.decode())
-		return None
+		proc = subprocess.Popen('./App/'+name, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, text=True)
+		while proc.poll() is None:
+			line = proc.stdout.readline().strip()
+			if line:
+				print(line)			
+
+		#proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		#res = proc.stdout.splitlines()
+		#for row in res:
+		#	print(row.decode())
+		#return None
 
 	@cell_magic
 	def scompile(self, line, cell):
