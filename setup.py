@@ -1,10 +1,10 @@
 from distutils.core import setup
 
 setup(
-	name='SLibCodeRun',
+	name='slibjupyter',
 	version='0.1.0',
 	author='Yuji Suehiro',
-	py_modules=['slib_plugin', 'slibrun'],
+	py_modules=['slibplugin', 'slibrun'],
 	url='https://github.com/YujiSue/slibjupyter',
 	license='MIT license',
 	description='Plugin to run C++ with slib on the Google Colab'
