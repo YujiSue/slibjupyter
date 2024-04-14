@@ -72,6 +72,8 @@ class SLibCodeRun(Magics):
 		else:
 			body = self.makeScriptBody() + code		
 		header = '#include "sobj.h"\n'
+		if ('A' in libs):
+			header += '#include "sapp.h"\n'
 		if ('I' in libs):
 			header += '#include "sbioinfo.h"\n'
 		header += 'using namespace slib;\n'
@@ -119,10 +121,10 @@ class SLibCodeRun(Magics):
 		self.preset()
 		self.exportScript(name, slibs, cell)
 		libs = ['sobj', 'curl']
+		if ('A' in slibs):
+			libs.append('sapp')
 		if ('I' in slibs):
 			libs.append('sbioinfo')
-		if ('S' in slibs):
-			libs.append('sscience')
 		if name[0] == '+':
 			name = name[1:]
 		self.compile({'product':name, 'libs':libs, 'codes':[name+'.cpp'], 'verbose': verbose})
