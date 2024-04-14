@@ -1,5 +1,5 @@
-from slibrun import SLibCodeRun as SRunner
+from slibrun import slibjupyter as SRunner
 
 def load_ipython_extension(ip):
-	slib_plugin = SRunner(ip)
-	ip.register_magics(slib_plugin)
+	slibplugin = SRunner(ip)
+	ip.register_magics(slibplugin)
