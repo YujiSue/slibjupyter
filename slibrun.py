@@ -133,10 +133,6 @@ class SLibCodeRun(Magics):
 			line = proc.stdout.readline().strip()
 			if line:
 				print(line)			
-		#proc = subprocess.run('./App/'+name, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-		#res = proc.stdout.splitlines()
-		#for row in res:
-		#	print(row.decode())
 		return None
 
 	def runCodes(self, name, codes, headers, libs, cell):
@@ -176,6 +172,21 @@ class SLibCodeRun(Magics):
 		if (2 < len(args)):
 			if args[2] == 'v':
 				verbose = True
+		output = self.runScript(name, libs, verbose, cell)
+		return output
+		
+	@cell_magic
+	def slibscript(self, line, cell):
+		args = line.split()
+		name = args[0]
+		libs = ''
+		verbose = False
+		if (1 < len(args)):
+			for i in range(1,  len(args)):
+				if args[i] == 'v':
+					verbose = True
+				else :
+					libs += args[i]
 		output = self.runScript(name, libs, verbose, cell)
 		return output
 	
