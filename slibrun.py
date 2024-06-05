@@ -136,8 +136,7 @@ class SLibCodeRun(Magics):
 					print(line.strip())
 				else:
 					break
-			
-        	while True: 
+		while True: 
 			line = proc.stdout.readline()
 			if line:
 				print(line.strip())
