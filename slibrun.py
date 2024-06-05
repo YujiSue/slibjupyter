@@ -129,7 +129,7 @@ class SLibCodeRun(Magics):
 			name = name[1:]
 		self.compile({'product':name, 'libs':libs, 'codes':[name+'.cpp'], 'verbose': verbose})
 		proc = subprocess.Popen('./App/'+name, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, text=True)
-		while proc.poll() is none:
+		while proc.poll() is None:
 			while True: 
 				line = proc.stdout.readline()
 				if line:
