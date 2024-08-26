@@ -2,9 +2,7 @@ import os
 import glob
 import re
 import subprocess
-
 from IPython.core.magic import Magics, cell_magic, magics_class
-
 @magics_class
 class SLibCodeRun(Magics):
 	def __init__(self, shell):
@@ -133,13 +131,13 @@ class SLibCodeRun(Magics):
 			while True: 
 				line = proc.stdout.readline()
 				if line:
-					print(line.strip())
+					print(line, end='')
 				else:
 					break
 		while True: 
 			line = proc.stdout.readline()
 			if line:
-				print(line.strip())
+				print(line, end='')
 			else:
 				break
 	
