@@ -27,7 +27,7 @@ class SLibCodeRun(Magics):
                 code = code + 'struct {\n'
                 part = row[row.find('_SFUNC_')+7:]
                 ret = re.search(r'\s+[a-zA-Z0-9_]+\s+', part)
-                code  = code + ret.group() + 'operator()'
+                code = code + ret.group() + 'operator()'
                 fname = re.search(r'\s+[a-zA-Z0-9_]+\s*\(', part)
                 code = code + part[fname.end()-1:] + '\n'
                 name = part[fname.start():fname.end()-1]
