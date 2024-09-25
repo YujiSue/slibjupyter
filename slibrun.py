@@ -3,10 +3,12 @@ import glob
 import re
 import subprocess
 from IPython.core.magic import Magics, cell_magic, magics_class
+
 @magics_class
 class SLibCodeRun(Magics):
     def __init__(self, shell):
         super(SLibCodeRun, self).__init__(shell)
+
     @staticmethod
     def preset():
         os.environ['PATH'] += ':/usr/local/bin'
@@ -22,9 +24,9 @@ class SLibCodeRun(Magics):
         brackets = 0
         rows = cell.splitlines()
         for row in rows:
-            if '_SFUNC_' in row:
+            if '_DEF_' in row:
                 code = code + 'struct {\n'
-                part = row[row.find('_SFUNC_')+7:]
+                part = row[row.find('_DEF_')+5:]
                 ret = re.search(r'\s+[a-zA-Z0-9_]+\s+', part)
                 code = code + ret.group() + 'operator()'
                 fname = re.search(r'\s+[a-zA-Z0-9_]+\s*\(', part)
@@ -98,12 +100,13 @@ class SLibCodeRun(Magics):
                 cmd += ' -l'+lib
         cmd += f" -o ./App/{info['product']}"
         if info['verbose']:
-            print(cmd)
+            print('*' * 30, ' Compile log ', '*' * 30, '\n >', cmd, '\n')
             proc = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, text=True)
             while proc.poll() is None:
                 line = proc.stdout.readline().strip()
                 if line:
                     print(line)
+            print('*' * 75, '\n')
         else:
             os.system(cmd)
 
@@ -163,7 +166,7 @@ class SLibCodeRun(Magics):
         return output
     
     @cell_magic
-    def slibcode(self, line, cell):
+    def slibcodes(self, line, cell):
         args = line.split()
         name = args[0]
         codes = args[1]
