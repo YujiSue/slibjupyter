@@ -43,7 +43,7 @@ class SLibCodeRun(Magics):
                     isFunc = False
                 else:
                     code = code + row + '\n'
-            return code
+        return code
         
     def makeScriptBody(self):
         body = ''
@@ -74,14 +74,16 @@ class SLibCodeRun(Magics):
         header += 'int main(int argc, const char **argv) {\n'
         footer = '\nreturn 0;\n}'
         path = './Codes/'+name+'.cpp'
-        with open(path, mode='w') as f:
+        with open(path, 'w') as f:
             f.write(header)
             f.write(body)
             f.write(footer)
+
     def exportSrc(self, name, cell):
         path = f"./Codes/{name}.cpp"
         with open(path, 'w') as f:
             f.write(cell)
+
     def compile(self, info):
         cmd = 'g++ -std=c++11 -O2'
         cmd += ' -I./Codes -I/usr/local/include/slib'
@@ -104,6 +106,7 @@ class SLibCodeRun(Magics):
                     print(line)
         else:
             os.system(cmd)
+
     def runScript(self, name, slibs, verbose, cell):
         self.preset()
         self.exportScript(name, slibs, cell)
@@ -170,7 +173,7 @@ class SLibCodeRun(Magics):
         return output
     
     @cell_magic
-    def run_sapp(self, line, cell):
+    def sappexec(self, line, cell):
         args = line.split()
         name = args[0]
         codes = args[1]
