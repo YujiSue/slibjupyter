@@ -23,7 +23,7 @@ class SLibCodeRun(Magics):
         brackets = 0
         rows = cell.splitlines()
         for row in rows:
-            if '_SFUNC_' in row:
+		if '_SFUNC_' in row:
                 code = code + 'struct {\n'
                 part = row[row.find('_SFUNC_')+7:]
                 ret = re.search(r'\s+[a-zA-Z0-9_]+\s+', part)
@@ -36,9 +36,8 @@ class SLibCodeRun(Magics):
                     code = code + '}' + name + ';'
                 else:
                     isFunc = True
-			
              elif isFunc:
-                code = code + row + '\n'
+		code = code + row + '\n'
                 brackets = brackets + row.count('{') - row.count('}')
                 if brackets == 0:
                     code = code + '}' + name + ';'
