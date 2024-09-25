@@ -9,11 +9,12 @@ class SLibCodeRun(Magics):
         super(SLibCodeRun, self).__init__(shell)
     @staticmethod
     def preset():
-        os.environ['PATH'] += ':/usr/local/lib'
+        os.environ['PATH'] += ':/usr/local/bin'
         os.environ['LD_LIBRARY_PATH'] += ':/usr/local/lib'
         os.makedirs('./Scripts', exist_ok=True)
         os.makedirs('./Codes', exist_ok=True)
         os.makedirs('./App', exist_ok=True)
+
     def convertFunc(self, cell):
         code = ''
         name = ''
@@ -43,14 +44,16 @@ class SLibCodeRun(Magics):
                 else:
                     code = code + row + '\n'
             return code
+        
     def makeScriptBody(self):
         body = ''
         scripts = glob.glob("./Scripts/*.cpscrpt")
         sorted(scripts, key=lambda f: os.stat(f).st_mtime, reverse=True)
         for scrpt in scripts:
-            with open(scrpt, 'r') as f:
+            with open(scrpt) as f:
                 body += f"{f.read()}\n"
         return body
+    
     def exportScript(self, name, libs, cell):
         code = self.convertFunc(cell)
         if name[0] == '+':
@@ -61,6 +64,7 @@ class SLibCodeRun(Magics):
             body = self.makeScriptBody()
         else:
             body = self.makeScriptBody() + code		
+        
         header = '#include "sobj.h"\n'
         if 'A' in libs:
             header += '#include "sapp.h"\n'
@@ -90,7 +94,7 @@ class SLibCodeRun(Magics):
         if 'libs' in info:
             for lib in info['libs']:
                 cmd += ' -l'+lib
-        cmd += f" -o ./App/{info["product"]}"
+        cmd += f" -o ./App/{info['product']}"
         if info['verbose']:
             print(cmd)
             proc = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, text=True)
@@ -98,10 +102,6 @@ class SLibCodeRun(Magics):
                 line = proc.stdout.readline().strip()
                 if line:
                     print(line)
-            #proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-            #res = proc.stdout.splitlines()
-            #for row in res:
-            #    print(row.decode())
         else:
             os.system(cmd)
     def runScript(self, name, slibs, verbose, cell):
@@ -143,9 +143,7 @@ class SLibCodeRun(Magics):
         args = line.split()
         name = args[0]
         self.exportSrc(name, cell)
-    @cell_magic
-    def slibcompile(self, line, cell):
-        args = line.split()
+        
     @cell_magic
     def slibscript(self, line, cell):
         args = line.split()
@@ -160,6 +158,7 @@ class SLibCodeRun(Magics):
                     libs += args[i]
         output = self.runScript(name, libs, verbose, cell)
         return output
+    
     @cell_magic
     def slibcode(self, line, cell):
         args = line.split()
@@ -169,6 +168,7 @@ class SLibCodeRun(Magics):
         libs = args[3]
         output = self.runCodes(name, codes, headers, libs, cell)
         return output
+    
     @cell_magic
     def run_sapp(self, line, cell):
         args = line.split()
