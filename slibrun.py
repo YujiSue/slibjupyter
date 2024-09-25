@@ -41,8 +41,8 @@ class SLibCodeRun(Magics):
                 if brackets == 0:
                     code = code + '}' + name + ';'
                     isFunc = False
-                else:
-                    code = code + row + '\n'
+            else:
+                code = code + row + '\n'
         return code
         
     def makeScriptBody(self):
