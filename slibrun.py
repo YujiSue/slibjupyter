@@ -53,7 +53,7 @@ class SLibCodeRun(Magics):
         body = 'int main(int argc, const char **argv) {\n'
         #
         for header in headers:
-            hpart += f'#include {header}\n'
+            hpart += f'#include "{header}"\n'
         hpart += 'using namespace slib;\n'
         hpart += 'using namespace slib::sio;\n'
         hpart += 'using namespace slib::sutil;\n'
