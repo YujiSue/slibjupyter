@@ -161,7 +161,7 @@ class SLibCodeRun(Magics):
                     if opt == 'I':
                         libs.append('lsbioinfo')
                         headers.append('sbioinfo.h')
-        libs.extend(['lsobj', 'lpthread', 'ldl', 'lcurl'])                verbose = True
+        libs.extend(['lsobj', 'lpthread', 'ldl', 'lcurl'])
         output = self.runScript(name, includes, headers, libs, parts, code, verbose)
         return output    
     
