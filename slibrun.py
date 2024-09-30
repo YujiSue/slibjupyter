@@ -138,7 +138,7 @@ class SLibCodeRun(Magics):
     def slibscript(self, line, cell):
         args = line.split()
         name = args[0]
-        libs = ['lsobj', 'lpthread', 'ldl', 'lcurl']
+        libs = []
         includes = []
         headers = []
         parts = []
@@ -157,7 +157,7 @@ class SLibCodeRun(Magics):
             else:
                 for opt in arg:
                     if opt == 'v':
-                        verbose = True
+        libs.extend(['lsobj', 'lpthread', 'ldl', 'lcurl'])                verbose = True
         output = self.runScript(name, includes, headers, libs, parts, code, verbose)
         return output    
     
