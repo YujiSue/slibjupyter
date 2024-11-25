@@ -2,16 +2,14 @@
 # slibjupyter
 <a name="eng"></a>
 ## About this plugin
-This plugin is
+This is a plugin to make executable binaries from C/C++ codes and run them on the Jupyter.
 
 ## Installation
-This plugin is available via pip. It can be installed directly from github.
 ```sh
 pip install git+https://github.com/YujiSue/slibjupyter.git
 ```
 
 ## Usage
-
 ###  Example of a script like code
 ```py
 %%slibscript
@@ -37,7 +35,6 @@ pip install git+https://github.com/YujiSue/slibjupyter.git
 ```
 
 ## 使用方法
-マジックコマンドをつけることで、バックグラウンドで実行ファイルを生成します。  
 
 ###  スクリプト型表記の例
 ```py
